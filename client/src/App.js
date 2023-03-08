@@ -1,19 +1,24 @@
 //import react router-router-dom for routing
+import React, { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
-import Home from "./Pages/Home/Home";
-import Products from "./Pages/Products/Products";
-import Product from "./Pages/Product/Product";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-
 import "./app.scss";
+
+
+const Home = lazy(() => import("./Pages/Home/Home"));
+const Product = lazy(() => import("./Pages/Product/Product"));
+const Products = lazy(() => import("./Pages/Products/Products"));
+
 
 //create a layout to contain and maintain the flow a website
 const Layout = () => {
   return (
     <div className="app">
       <Navbar />
-      <Outlet />
+      <Suspense>
+        <Outlet />
+      </Suspense>
       <Footer />
     </div>
   );
@@ -22,28 +27,27 @@ const Layout = () => {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout/>,
-    children:[
+    element: <Layout />,
+    children: [
       {
         path: "/",
-        element: <Home />
+        element: <Home />,
       },
       {
         path: "/products/:id",
-        element: <Products />
+        element: <Products />,
       },
       {
         path: "/product/:id",
-        element: <Product />
+        element: <Product />,
       },
-    
-    ]
-  }
+    ],
+  },
 ]);
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <RouterProvider router={router} />
     </div>
   );

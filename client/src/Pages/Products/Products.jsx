@@ -1,32 +1,57 @@
-import React, { useId, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
 import { useParams } from "react-router-dom";
 import List from "../../components/List/List";
+import useFetch from "../../Hooks/useFetch";
+import useFetchMaxPrice from "../../Hooks/useFetchMaxPrice";
 
 import "./Products.scss";
 
 const Products = () => {
+  const price = useFetchMaxPrice();
   const [maxPrice, setMaxPrice] = useState(100);
+  const [selectedSubCat, setSelectedSubCat] = useState([]);
+  const [sort, setSort] = useState("asc");
 
   const id = useId();
   const catId = parseInt(useParams().id);
+
+  const { data, loading, error } = useFetch(
+    `/sub-categories?[filters][categories][id][$eq]=${catId}`
+  );
+
+
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    const checked = e.target.checked;
+
+    setSelectedSubCat(
+      checked
+        ? [...selectedSubCat, value]
+        : selectedSubCat.filter((item) => item !== value)
+    );
+  };
 
   return (
     <div className="products">
       <div className="left">
         <div className="filterItems">
           <h2>Product Categories</h2>
-          <div className="inputItem">
-            <input type="checkbox" id={`${id}-1`} value={1} />
-            <label htmlFor={`${id}-1`}>Skirt</label>
-          </div>
-          <div className="inputItem">
-            <input type="checkbox" id={`${id}-2`} value={2} />
-            <label htmlFor={`${id}-2`}>Coats</label>
-          </div>
-          <div className="inputItem">
-            <input type="checkbox" id={`${id}-3`} value={3} />
-            <label htmlFor={`${id}-3`}>Shoes</label>
-          </div>
+          {error
+            ? "something went wrong"
+            : loading
+            ? "Loading...."
+            : data?.map((item) => (
+                <div className="inputItem" key={item.id}>
+                  <input
+                    type="checkbox"
+                    id={`${id}-1`}
+                    value={item.id}
+                    onChange={handleChange}
+                  />
+                  <label htmlFor={`${id}-1`}>{item.attributes.title}</label>
+                </div>
+              ))}
         </div>
         <div className="filterItems">
           <h2>Filter By Price</h2>
@@ -35,16 +60,22 @@ const Products = () => {
             <input
               type="range"
               min={0}
-              max={100}
+              max={price}
               onChange={(e) => setMaxPrice(e.target.value)}
             />
-            <span>{maxPrice}</span>
+            <span>{maxPrice <= price ? maxPrice : price}</span>
           </div>
         </div>
         <div className="filterItems">
           <h2>Sort By</h2>
           <div className="inputItem">
-            <input type="radio" id={`${id}-radio-1`} value="asc" name="price" />
+            <input
+              type="radio"
+              id={`${id}-radio-1`}
+              value="asc"
+              name="price"
+              onChange={(e) => setSort("asc")}
+            />
             <label htmlFor={`${id}-radio-1`}>Price (Lowest)</label>
           </div>
           <div className="inputItem">
@@ -53,6 +84,7 @@ const Products = () => {
               id={`${id}-radio-2`}
               value="desc"
               name="price"
+              onChange={(e) => setSort("desc")}
             />
             <label htmlFor={`${id}-radio-2`}>Price (Highest)</label>
           </div>
@@ -64,7 +96,12 @@ const Products = () => {
           src="https://images.pexels.com/photos/833052/pexels-photo-833052.jpeg?auto=compress&cs=tinysrgb&w=600"
           alt=""
         />
-        <List />
+        <List
+          catId={catId}
+          sort={sort}
+          selectedSubCat={selectedSubCat}
+          maxPrice={maxPrice}
+        />
       </div>
     </div>
   );

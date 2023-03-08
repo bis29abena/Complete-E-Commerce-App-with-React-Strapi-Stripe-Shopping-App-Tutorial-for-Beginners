@@ -9,9 +9,12 @@ import useToggle from "../../Hooks/useToggle";
 
 import "./Navbar.scss";
 import Cart from "../Cart/Cart";
+import useFetch from "../../Hooks/useFetch";
 
 const Navbar = () => {
   const [open, setOpen] = useToggle(false);
+
+  const { data, loading, error } = useFetch("/categories");
 
   return (
     <div className="navbar">
@@ -25,21 +28,17 @@ const Navbar = () => {
             <span>USD</span>
             <KeyboardArrowDownIcon />
           </div>
-          <div className="item">
-            <Link className="link" to="/products/1">
-              Women
-            </Link>
-          </div>
-          <div className="item">
-            <Link className="link" to="/products/2">
-              Children
-            </Link>
-          </div>
-          <div className="item">
-            <Link className="link" to="/products/3">
-              Men
-            </Link>
-          </div>
+          {error
+            ? "something went wrong"
+            : loading
+            ? "loading"
+            : data.map((item) => (
+                <div className="item" key={item.id}>
+                  <Link className="link" to={`/products/${item.id}`}>
+                    {item.attributes?.title}
+                  </Link>
+                </div>
+              ))}
         </div>
         <div className="center">
           <Link className="link" to="/">
@@ -78,7 +77,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      {open && <Cart/>}
+      {open && <Cart />}
     </div>
   );
 };
