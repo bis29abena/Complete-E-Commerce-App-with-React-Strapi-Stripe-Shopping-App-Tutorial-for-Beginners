@@ -1,13 +1,11 @@
-import React, { useEffect, useId, useState } from "react";
+import React, { useId, useState } from "react";
 import { useParams } from "react-router-dom";
 import List from "../../components/List/List";
 import useFetch from "../../Hooks/useFetch";
-import useFetchMaxPrice from "../../Hooks/useFetchMaxPrice";
 
 import "./Products.scss";
 
 const Products = () => {
-  const price = useFetchMaxPrice();
   const [maxPrice, setMaxPrice] = useState(100);
   const [selectedSubCat, setSelectedSubCat] = useState([]);
   const [sort, setSort] = useState("asc");
@@ -60,10 +58,10 @@ const Products = () => {
             <input
               type="range"
               min={0}
-              max={price}
+              max={100}
               onChange={(e) => setMaxPrice(e.target.value)}
             />
-            <span>{maxPrice <= price ? maxPrice : price}</span>
+            <span>{ maxPrice }</span>
           </div>
         </div>
         <div className="filterItems">

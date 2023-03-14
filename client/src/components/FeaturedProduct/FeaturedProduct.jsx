@@ -1,6 +1,5 @@
 import React from "react";
 import useFetch from "../../Hooks/useFetch";
-import useFetchMaxPrice from "../../Hooks/useFetchMaxPrice";
 import Card from "../Card/Card";
 import "./FeaturedProduct.scss";
 
@@ -9,7 +8,6 @@ const FeaturedProduct = ({ type }) => {
     `/products?populate=*&[filters][type][$eq]=${type}`
   );
 
-  useFetchMaxPrice()
 
   return (
     <div className="featuredProducts">

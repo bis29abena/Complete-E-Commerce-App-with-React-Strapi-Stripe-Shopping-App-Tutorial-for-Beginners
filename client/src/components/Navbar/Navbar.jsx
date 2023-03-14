@@ -10,11 +10,12 @@ import useToggle from "../../Hooks/useToggle";
 import "./Navbar.scss";
 import Cart from "../Cart/Cart";
 import useFetch from "../../Hooks/useFetch";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [open, setOpen] = useToggle(false);
-
   const { data, loading, error } = useFetch("/categories");
+  const products = useSelector(state => state.cart.products)
 
   return (
     <div className="navbar">
@@ -72,7 +73,7 @@ const Navbar = () => {
             <FavoriteIcon />
             <div className="cartIcon" onClick={setOpen}>
               <AddShoppingCartIcon />
-              <span className="cartIconText">0</span>
+              <span className="cartIconText">{products.length}</span>
             </div>
           </div>
         </div>

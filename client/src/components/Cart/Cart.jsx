@@ -1,51 +1,47 @@
 import React from "react";
 import DeleteIcon from '@mui/icons-material/DeleteOutline';
 import "./Cart.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart, resetCart } from "../../redux/cartReducer";
 
 const Cart = () => {
-  const data = [
-    {
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim porro autem blanditiis beatae provident laboriosam soluta ipsam reprehenderit nesciunt laborum illum, cupiditate repellat voluptate debitis suscipit maxime, qui omnis dolor.",
-      id: 1,
-      img1: "https://images.pexels.com/photos/1113554/pexels-photo-1113554.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Long Sleeve Graphic T-Shirt",
-      isNew: true,
-      oldPrice: 19,
-      newPrice: 12,
-    },
-    {
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim porro autem blanditiis beatae provident laboriosam soluta ipsam reprehenderit nesciunt laborum illum, cupiditate repellat voluptate debitis suscipit maxime, qui omnis dolor.",
-      id: 2,
-      img1: "https://images.pexels.com/photos/1750776/pexels-photo-1750776.jpeg?auto=compress&cs=tinysrgb&w=600",
-      title: "Coat",
-      isNew: true,
-      oldPrice: 19,
-      newPrice: 12,
-    },
-  ];
+ const products = useSelector(state => state.cart.products)
+ const dispatch = useDispatch()
+ const file_path = process.env.REACT_APP_API_UPLOAD_URL;
+
+ const totalPrice = () => {
+  let total = 0
+
+  products.forEach(element => {
+    total += element.quantity * element.price 
+  });
+
+  return total.toFixed(2)
+ }
+
 
   return (
     <div className="cart">
       <h1>Title</h1>
-      {data?.map((item) => {
+      {products?.map((item) => {
         return (
           <div className="item" key={item.id}>
-            <img src={item.img1} alt="" />
+            <img src={file_path + item.img} alt="" />
             <div className="details">
               <h1>{item.title}</h1>
               <p>{item.desc?.substring(0, 100)}</p>
-              <div className="price">1 x ${item.newPrice}</div>
+              <div className="price">{item.quantity} x ${item.price}</div>
             </div>
-            <DeleteIcon className="delete"/>
+            <DeleteIcon className="delete" onClick={() => dispatch(removeFromCart({id: item.id}))}/>
           </div>
         );
       })}
       <div className="total">
         <span>SUBTOTAL</span>
-        <span>$142</span>
+        <span>${totalPrice()}</span>
       </div>
       <button>PROCEED TO CHECKOUT</button>
-      <span className="reset">Reset</span>
+      <span className="reset" onClick={() => dispatch(resetCart())}>Reset</span>
     </div>
   );
 };
