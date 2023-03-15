@@ -4,12 +4,13 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import "./app.scss";
-
+import ErrorPage from "./Pages/ErrorPage/ErrorPage";
 
 const Home = lazy(() => import("./Pages/Home/Home"));
 const Product = lazy(() => import("./Pages/Product/Product"));
 const Products = lazy(() => import("./Pages/Products/Products"));
-
+const Login = lazy(() => import("./Pages/Login/Login"));
+const SignUp = lazy(() => import("./Pages/SignUp/SignUp"));
 
 //create a layout to contain and maintain the flow a website
 const Layout = () => {
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Layout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
@@ -42,6 +44,22 @@ const router = createBrowserRouter([
         element: <Product />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: (
+      <Suspense>
+        <Login />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/signup",
+    element: (
+      <Suspense>
+        <SignUp />
+      </Suspense>
+    ),
   },
 ]);
 

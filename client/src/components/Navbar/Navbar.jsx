@@ -9,11 +9,13 @@ import useToggle from "../../Hooks/useToggle";
 
 import "./Navbar.scss";
 import Cart from "../Cart/Cart";
+import User from "../User/User"
 import useFetch from "../../Hooks/useFetch";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [open, setOpen] = useToggle(false);
+  const [openUser, setOpenUser] = useToggle(false);
   const { data, loading, error } = useFetch("/categories");
   const products = useSelector(state => state.cart.products)
 
@@ -69,7 +71,7 @@ const Navbar = () => {
           </div>
           <div className="icons">
             <SearchIcon />
-            <PersonIcon />
+            <PersonIcon className="userIcon" onClick={setOpenUser}/>
             <FavoriteIcon />
             <div className="cartIcon" onClick={setOpen}>
               <AddShoppingCartIcon />
@@ -79,6 +81,7 @@ const Navbar = () => {
         </div>
       </div>
       {open && <Cart />}
+      {openUser && <User/>}
     </div>
   );
 };

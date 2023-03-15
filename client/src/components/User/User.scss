@@ -1,0 +1,45 @@
+.user {
+  position: absolute;
+  padding: 10px;
+  top: 80px;
+  right: 100px;
+  background-color: white;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  font-weight: 500;
+  border-radius: 5%;
+  font-size: 20px;
+  box-shadow: 10px 19px 29px 4px rgba(105, 174, 211, 0.75);
+  -webkit-box-shadow: 10px 19px 29px 4px rgba(105, 174, 211, 0.75);
+  -moz-box-shadow: 10px 19px 29px 4px rgba(105, 174, 211, 0.75);
+  overflow-y: auto;
+
+  .userDetails {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+
+    img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  .logoutBtn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+
+    .icon {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}

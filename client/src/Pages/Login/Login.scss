@@ -1,0 +1,88 @@
+.login {
+  display: flex;
+  justify-content: center;
+
+  .left {
+    background-image: url("https://images.pexels.com/photos/4355345/pexels-photo-4355345.jpeg?auto=compress&cs=tinysrgb&w=600");
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    opacity: 0.5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+
+    span {
+      font-size: 3rem;
+      text-align: center;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+    }
+  }
+  .right {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 50px;
+    flex: 1;
+
+    h2 {
+      color: gray;
+      font-weight: 500;
+    }
+
+    .inputText {
+      margin-bottom: 20px;
+
+      input {
+        width: 50%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+
+      label {
+        display: inline-block;
+        width: 100px;
+        text-align: right;
+        margin-right: 10px;
+      }
+    }
+    .actionBtns {
+      margin-right: 150px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      button {
+        width: 80px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
+      }
+
+      .login:hover {
+        background-color: blue;
+        color: white;
+      }
+
+      .signUp:hover {
+        background-color: green;
+      }
+    }
+    span{
+        color: red;
+        cursor: pointer;
+    }
+  }
+}

@@ -8,6 +8,5 @@ export default function useToggle(defualtValue) {
             typeof value === 'boolean' ? value : !currentValue
         )
     }
-
     return [value, toggleValue]
 }
